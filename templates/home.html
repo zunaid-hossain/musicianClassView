@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-2">
+        <div class="container">
+          <a class="navbar-brand" href="#">Nassed</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'musician' %}">Add musician</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'album' %}">Add Album</a>
+              </li>
+            </ul>
+
+
+            
+          </div>
+          <form class="d-flex" role="search">
+            {% if user.is_authenticated %}
+            {% comment %} <a href="{% url 'Update' %}" class="btn btn-outline-success mx-2" type="submit">Profile</a> {% endcomment %}
+            <a href="{% url 'logout' %}" class="btn btn-success" type="submit">Logout</a>
+            {% else %}
+            
+            <a href="{% url 'login' %}" class="btn btn-success mx-2" type="submit">LOGIN</a>
+            <a href="{% url 'Register' %}" class="btn btn-outline-success" type="submit">SIGN-UP</a>
+            {% endif %}
+          </form>
+        </div>
+      </nav>
+
+    {% block container %}
+
+    {{info}}
+
+    <table class="table m-1">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Musician Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Album Rating</th>
+            <th scope="col">Instrument Type</th>
+            <th scope="col">Album Name</th>
+            <th scope="col">Release Date</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for i in data %}
+          <tr>
+            <th scope="row">
+              {{i.id}}
+            </th>
+            {% if user.is_authenticated %}
+            <td><a class="nav-link" href="{% url 'edit_musician' i.musician.id %}">{{i.musician}}</a></td>
+            {%else%}
+            <td>{{i.musician}}</td>
+            {%endif%}
+
+            <td>{{i.musician.Email}}</td>
+            <td>{{i.Rating}}</td>
+            <td>
+              {{i.musician.Instrument_Type}}
+            </td>
+            <td>{{i.Album_Name}}</td>
+            <td>{{i.Album_release_date}}</td>
+            {% if user.is_authenticated %}
+            <td>
+              <a href="{% url 'edit' i.id %}" class="btn btn-primary">Edit</a>
+              <a href="{% url 'delete' i.id %}" class="btn btn-outline-danger">Delete</a>
+            </td>
+            {%endif%}
+
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    
+    {% endblock container %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "home.html" %}
+{% load crispy_forms_tags %}
+
+{% block container %}
+
+<form  method ="post" class="form" style=" width: 35%;margin: auto; box-shadow:##0D6EFD  0px 100px 600px -50px;padding:30px; ">
+
+    {% csrf_token %}
+    <h4 class="my-3">ADD Album</h4>
+    <hr>
+    {{ form |crispy }}
+    <button class="btn btn-warning" type="submit"><a href=""></a>Submit</button>
+{% endblock container %}
